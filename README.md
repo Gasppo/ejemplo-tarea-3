@@ -1,50 +1,136 @@
-# Welcome to your Expo app 👋
+# Aplicación Expo - Tareas PAM �
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este es un proyecto de [Expo](https://expo.dev) creado con [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) que implementa una serie de tareas prácticas de React Native.
 
-## Get started
+## Inicio Rápido
 
-1. Install dependencies
+### Requisitos Previos
+- Node.js (versión 16 o superior)
+- npm o yarn
+- Expo Go app en tu dispositivo móvil (opcional)
+- Android Studio o Xcode para emuladores (opcional)
+
+### Instalación y Ejecución
+
+1. **Instalar dependencias**
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. **Iniciar la aplicación**
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. **Opciones para visualizar la app:**
+   - Escanea el código QR con la app [Expo Go](https://expo.dev/go)
+   - Presiona `a` para abrir en el [emulador de Android](https://docs.expo.dev/workflow/android-studio-emulator/)
+   - Presiona `i` para abrir en el [simulador de iOS](https://docs.expo.dev/workflow/ios-simulator/)
+   - Presiona `w` para abrir en el navegador web
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Estructura del Proyecto
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+El proyecto utiliza [enrutamiento basado en archivos](https://docs.expo.dev/router/introduction) con Expo Router. Los archivos principales están en el directorio **app**.
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/
+├── _layout.tsx          # Layout principal
+├── modal-perfil.tsx     # Modal para editar perfil
+└── (tabs)/              # Navegación por pestañas
+    ├── _layout.tsx      # Layout de tabs
+    ├── index.tsx        # Tab Contador
+    ├── tarjetas.tsx     # Tab Tarjetas
+    ├── perfil.tsx       # Tab Perfil
+    └── gallery.tsx      # Tab Galería
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Tareas Implementadas
 
-## Learn more
+### Tarea 1: Lista de Tarjetas Interactivas
 
-To learn more about developing your project with Expo, look at the following resources:
+**Conceptos aplicados:** Estilos, props, useState, `<Text>`, `<View>`, `<Pressable>`
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+**Características implementadas:**
+- ✅ Lista de tarjetas que reciben texto mediante props
+- ✅ Al tocar una tarjeta, cambia el color de fondo
+- ✅ Al tocar una tarjeta, cambia el color del texto
+- ✅ Texto centrado en ambos ejes dentro de cada tarjeta
+- ✅ Componente `Tarjeta.tsx` reutilizable
 
-## Join the community
+**Ubicación:** `app/(tabs)/tarjetas.tsx` y `components/Tarjeta.tsx`
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Tarea 2: Navegación por Tabs y Modal de Perfil
+
+**Conceptos aplicados:** expo-router (Tabs, Stack, _layout), `<TextInput>`, `<Modal>`
+
+**Características implementadas:**
+- ✅ **Tab Contador:** Botón que incrementa un contador y muestra su valor
+  - Ubicación: `app/(tabs)/index.tsx`
+  - Componente: `components/Counter.tsx`
+
+- ✅ **Tab Tarjetas:** Lista de tarjetas de la Tarea 1
+  - Ubicación: `app/(tabs)/tarjetas.tsx`
+
+- ✅ **Tab Perfil:** Muestra nombre y apellido con opción de editar
+  - Ubicación: `app/(tabs)/perfil.tsx`
+  - Botón "Cambiar nombre" que abre un modal
+  - Modal con input para cambiar el nombre
+  - Botón "Guardar" que actualiza el perfil y cierra el modal
+  - Componente modal: `components/ModalUpdatePerfil.tsx`
+
+---
+
+### Tarea 3: Galería de Productos con FlatList
+
+**Conceptos aplicados:** `<View>`, `<Text>`, `<Image>`, `<TextInput>`, `<Pressable>`, `<Modal>`, `<FlatList>`
+
+**Características implementadas:**
+- ✅ **Pantalla Galería** con navegación por tabs
+  - Ubicación: `app/(tabs)/gallery.tsx`
+
+- ✅ **Lista de productos** usando `<FlatList>`
+  - Cada ítem muestra: imagen, título y precio
+  - Imágenes locales con `require(...)` e imágenes por URI
+
+- ✅ **Búsqueda en tiempo real**
+  - `<TextInput>` arriba para filtrar productos por título
+  - Filtrado instantáneo mientras escribes
+
+- ✅ **Modal de detalle de producto**
+  - Se abre al presionar un producto
+  - Muestra imagen grande, título y descripción completa
+  - Botones para cambiar `resizeMode` de la imagen (cover, contain, stretch)
+
+- ✅ **Sistema de favoritos**
+  - Al mantener presionado un producto, se marca como favorito
+  - Cambio visual para indicar productos favoritos
+  - Persistencia del estado de favoritos
+
+## Componentes Personalizados
+
+- **`Counter.tsx`** - Componente contador con estado
+- **`Tarjeta.tsx`** - Tarjeta interactiva con cambio de color
+- **`Item.tsx`** - Ítem de lista para la galería
+- **`ModalUpdatePerfil.tsx`** - Modal para editar perfil
+- **`Greetings.tsx`** - Componente de saludo personalizado
+- **`BotonModalLink.tsx`** y **`BotonModalState.tsx`** - Botones para modales
+
+## Tecnologías Utilizadas
+
+- **React Native** - Framework de desarrollo móvil
+- **Expo** - Plataforma y herramientas para React Native
+- **Expo Router** - Enrutamiento basado en archivos
+- **TypeScript** - Tipado estático para JavaScript
+- **React Hooks** - useState para manejo de estado
+
+## Recursos Adicionales
+
+- [Documentación de Expo](https://docs.expo.dev/)
+- [Tutorial de Expo](https://docs.expo.dev/tutorial/introduction/)
+- [Documentación de React Native](https://reactnative.dev/)
+- [Expo Router](https://docs.expo.dev/router/introduction/)
+
