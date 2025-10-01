@@ -7,12 +7,12 @@ const Counter = () => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', padding: 40, }}>
             <Text style={{ fontSize: 64 }}>Valor {contador}</Text>
-            <View>
+            <View style={{ margin: 10 }}>
                 <Button title={`Sumar`} onPress={() => {
                     setContador(prev => prev + 1)
                 }} />
             </View>
-            <View style={{ backgroundColor: 'blue' }}>
+            <View style={{ backgroundColor: 'blue', margin: 10 }}>
                 <Pressable onPress={() => setContador(prev => prev - 1)} style={styles.pressable}>
                     <View>
                         <Text style={{ color: 'white', fontSize: 40, textAlign: 'center' }}>Restar</Text>
