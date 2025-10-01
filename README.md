@@ -1,11 +1,11 @@
-# Aplicación Expo - Tareas PAM �
+# Aplicación Expo - Tareas PAM
 
 Este es un proyecto de [Expo](https://expo.dev) creado con [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) que implementa una serie de tareas prácticas de React Native.
 
 ## Inicio Rápido
 
 ### Requisitos Previos
-- Node.js (versión 16 o superior)
+- Node.js (versión 18 o superior)
 - npm o yarn
 - Expo Go app en tu dispositivo móvil (opcional)
 - Android Studio o Xcode para emuladores (opcional)
