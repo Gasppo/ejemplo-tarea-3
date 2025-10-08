@@ -27,5 +27,11 @@ export default function TabsLayout() {
         title: 'Galeria',
         tabBarIcon: ({ color }) => <Ionicons name="images" color={color} size={26} />
       }} />
+    <Tabs.Screen
+      name="gestures"
+      options={{
+        title: 'Gestos',
+        tabBarIcon: ({ color }) => <Ionicons name="hand-left-outline" color={color} size={26} />
+      }} />
   </Tabs>
 }

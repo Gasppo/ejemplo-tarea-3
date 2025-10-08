@@ -13,14 +13,14 @@ const Item = (props: Props) => {
     const [resizeMode, setResizeMode] = useState<ImageResizeMode>('cover')
 
     const toggleFavorita = () => setIsFavorite(prev => !prev)
-    
+
     const resizeModes: ImageResizeMode[] = ['cover', 'contain', 'stretch'];
 
     return (
         <View style={styles.itemWrapper}>
-            <Pressable 
-                onLongPress={toggleFavorita} 
-                onPress={() => setOpenModal(true)} 
+            <Pressable
+                onLongPress={toggleFavorita}
+                onPress={() => setOpenModal(true)}
                 style={({ pressed }) => [
                     styles.card,
                     isFavorite && styles.favoriteCard,
@@ -32,10 +32,10 @@ const Item = (props: Props) => {
                         <Text style={styles.favoriteIcon}>⭐</Text>
                     </View>
                 )}
-                <Image 
-                    source={producto.uri} 
-                    resizeMode="cover" 
-                    style={styles.cardImage} 
+                <Image
+                    source={{ uri: producto.uri }}
+                    resizeMode="cover"
+                    style={styles.cardImage}
                 />
                 <View style={styles.cardContent}>
                     <Text style={styles.cardTitle} numberOfLines={2}>
@@ -54,7 +54,7 @@ const Item = (props: Props) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalHeader}>
                         <Text style={styles.modalTitle}>Detalle del Producto</Text>
-                        <Pressable 
+                        <Pressable
                             onPress={() => setOpenModal(false)}
                             style={styles.closeButton}
                         >
@@ -62,15 +62,15 @@ const Item = (props: Props) => {
                         </Pressable>
                     </View>
 
-                    <ScrollView 
+                    <ScrollView
                         contentContainerStyle={styles.modalContent}
                         showsVerticalScrollIndicator={false}
                     >
                         <View style={styles.imageContainer}>
-                            <Image 
-                                source={producto.uri} 
-                                resizeMode={resizeMode} 
-                                style={styles.modalImage} 
+                            <Image
+                                source={{ uri: producto.uri }}
+                                resizeMode={resizeMode}
+                                style={styles.modalImage}
                             />
                             <Text style={styles.sectionTitle}>Modo de ajuste de imagen</Text>
                             <View style={styles.resizeModeContainer}>
@@ -97,9 +97,9 @@ const Item = (props: Props) => {
                         <View style={styles.detailsContainer}>
                             <Text style={styles.productName}>{producto.nombre}</Text>
                             <Text style={styles.productPrice}>${producto.precio.toFixed(2)}</Text>
-                            
+
                             <View style={styles.divider} />
-                            
+
                             <Text style={styles.sectionTitle}>Descripción</Text>
                             <Text style={styles.productDescription}>
                                 {producto.description}

@@ -1,50 +1,42 @@
 import Item from '@/components/Item';
-import React, { useState } from 'react';
-import { FlatList, ImageSourcePropType, StyleSheet, Text, TextInput, View } from 'react-native';
+import { BACKEND_URL } from '@/utils/constants';
+import { sleep } from '@/utils/sleep';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export type Producto = {
     id: string;
     nombre: string;
     precio: number;
     description: string;
-    uri: ImageSourcePropType;
+    uri: string;
 }
 
-type BaseProducto = Omit<Producto, 'uri'>;
-
-const baseProductos: BaseProducto[] = [
-    { id: '1', nombre: 'Café en grano', precio: 10.99, description: 'Café de alta calidad procedente de Colombia. Notas a chocolate y nueces con un toque dulce.' },
-    { id: '2', nombre: 'Té verde', precio: 20.99, description: 'Té verde orgánico con antioxidantes naturales. Perfecto para comenzar el día con energía.' },
-    { id: '3', nombre: 'Chocolate amargo', precio: 30.99, description: 'Chocolate belga 85% cacao. Intenso sabor y beneficios para la salud.' },
-    { id: '4', nombre: 'Galletas de avena', precio: 40.99, description: 'Galletas caseras con avena integral, pasas y miel. Sin conservantes artificiales.' },
-    { id: '5', nombre: 'Mermelada de fresa', precio: 50.99, description: 'Mermelada artesanal con fresas frescas y azúcar natural. Ideal para tus desayunos.' },
-    { id: '6', nombre: 'Aceite de oliva', precio: 60.99, description: 'Aceite de oliva extra virgen de la región mediterránea. Primera prensada en frío.' },
-    { id: '7', nombre: 'Vinagre balsámico', precio: 70.99, description: 'Vinagre balsámico de Módena envejecido 12 años. Sabor complejo y dulce.' },
-    { id: '8', nombre: 'Pasta fusilli', precio: 80.99, description: 'Pasta italiana de sémola de trigo duro. Textura perfecta al dente.' },
-    { id: '9', nombre: 'Arroz basmati', precio: 90.99, description: 'Arroz basmati aromático de grano largo. Importado de la India.' },
-    { id: '10', nombre: 'Quinoa', precio: 100.99, description: 'Quinoa orgánica rica en proteínas. Superalimento andino sin gluten.' },
-    { id: '11', nombre: 'Miel de abeja', precio: 110.99, description: 'Miel pura de flores silvestres. Producida por abejas locales sin procesar.' },
-    { id: '12', nombre: 'Nueces mixtas', precio: 120.99, description: 'Mezcla premium de nueces, almendras y avellanas tostadas ligeramente.' },
-    { id: '13', nombre: 'Almendras', precio: 130.99, description: 'Almendras crudas de California. Ricas en vitamina E y fibra natural.' },
-    { id: '14', nombre: 'Avellanas', precio: 140.99, description: 'Avellanas tostadas con un sabor dulce y mantecoso. Perfectas para snack.' },
-    { id: '15', nombre: 'Lentejas', precio: 150.99, description: 'Lentejas orgánicas de cocción rápida. Alta fuente de proteína vegetal.' },
-    { id: '16', nombre: 'Garbanzos', precio: 160.99, description: 'Garbanzos secos de tamaño grande. Ideales para hummus y guisos.' },
-    { id: '17', nombre: 'Harina integral', precio: 170.99, description: 'Harina de trigo integral molida en piedra. Conserva todos los nutrientes.' },
-    { id: '18', nombre: 'Azúcar morena', precio: 180.99, description: 'Azúcar de caña sin refinar con melaza natural. Sabor caramelo único.' },
-    { id: '19', nombre: 'Sal marina', precio: 190.99, description: 'Sal marina del Atlántico cristalizada naturalmente. Rica en minerales.' },
-    { id: '20', nombre: 'Pimienta negra', precio: 200.99, description: 'Pimienta negra en grano de Malabar. Aroma intenso y sabor picante.' },
-];
-
-const listadoProductos: Producto[] = baseProductos.map(p => ({
-    ...p,
-    uri: { uri: `https://picsum.photos/seed/${encodeURIComponent(p.id)}/400/300` },
-}));
 
 const Gallery = () => {
     const [filtro, setFiltro] = useState('')
-    const productosFiltrados = listadoProductos.filter(el => 
-        el.nombre.toLowerCase().includes(filtro.toLowerCase())
-    );
+    const [productos, setProductos] = useState<Producto[]>([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+
+        const getProductos = async () => {
+            setLoading(true)
+            await sleep(1000)
+            const response = await fetch(`${BACKEND_URL}/productos`)
+
+            if (!response.ok) {
+                setLoading(false)
+                return console.error(response.statusText)
+            }
+
+            const productos = await response.json() as Producto[]
+            setProductos(productos)
+            setLoading(false)
+        }
+
+        getProductos()
+    }, [filtro])
 
     return (
         <View style={styles.container}>
@@ -52,10 +44,10 @@ const Gallery = () => {
                 <Text style={styles.title}>Galería de Productos</Text>
                 <View style={styles.searchContainer}>
                     <Text style={styles.searchIcon}>🔍</Text>
-                    <TextInput 
-                        onChangeText={setFiltro} 
+                    <TextInput
+                        onChangeText={setFiltro}
                         value={filtro}
-                        placeholder='Buscar productos...' 
+                        placeholder='Buscar productos...'
                         placeholderTextColor="#999"
                         style={styles.searchInput}
                     />
@@ -65,12 +57,13 @@ const Gallery = () => {
                 </View>
                 {filtro.length > 0 && (
                     <Text style={styles.resultText}>
-                        {productosFiltrados.length} resultado{productosFiltrados.length !== 1 ? 's' : ''} encontrado{productosFiltrados.length !== 1 ? 's' : ''}
+                        {productos.length} resultado{productos.length !== 1 ? 's' : ''} encontrado{productos.length !== 1 ? 's' : ''}
                     </Text>
                 )}
             </View>
-            <FlatList
-                data={productosFiltrados}
+            {loading && <ActivityIndicator />}
+            {!loading && <FlatList
+                data={productos}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item: producto }) => <Item producto={producto} />}
                 numColumns={2}
@@ -86,7 +79,7 @@ const Gallery = () => {
                         </Text>
                     </View>
                 }
-            />
+            />}
         </View>
     )
 }
