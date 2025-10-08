@@ -89,7 +89,7 @@ export default function GesturesScreen() {
             Pellizca con dos dedos para hacer zoom, o tocá dos veces para cambiar el zoom
           </Text>
           <View style={styles.pinchContainer}>
-            <PinchableImage imageUri="https://picsum.photos/400/400?random=1" />
+            <PinchableImage imageUri="https://picsum.photos/400/400?random=10" />
           </View>
         </View>
 

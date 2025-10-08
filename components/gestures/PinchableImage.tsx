@@ -68,8 +68,8 @@ export default PinchableImage;
 
 const styles = StyleSheet.create({
   container: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',

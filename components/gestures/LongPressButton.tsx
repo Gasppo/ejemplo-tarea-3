@@ -76,8 +76,8 @@ export default LongPressButton;
 
 const styles = StyleSheet.create({
   button: {
-    width: 150,
-    height: 80,
+    width: 250,
+    height: 150,
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
