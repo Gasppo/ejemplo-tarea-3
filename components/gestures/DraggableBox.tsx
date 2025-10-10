@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -26,7 +26,6 @@ const DraggableBox = ({ color, label }: Props) => {
       translateY.value = context.value.y + event.translationY;
     })
     .onEnd(() => {
-      // Optional: Add spring animation on release
       translateX.value = withSpring(translateX.value);
       translateY.value = withSpring(translateY.value);
     });

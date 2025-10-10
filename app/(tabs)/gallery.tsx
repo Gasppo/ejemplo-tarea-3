@@ -1,42 +1,24 @@
-import Item from '@/components/Item';
-import { BACKEND_URL } from '@/utils/constants';
-import { sleep } from '@/utils/sleep';
-import React, { useEffect, useState } from 'react';
+import FloatingButton from '@/components/FloatingActionButton';
+import AddProductModal from '@/components/gallery/AddProductModal';
+import Item from '@/components/gallery/Item';
+import { useProductos } from '@/hooks/useProductos';
+import React, { useState } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
-
-export type Producto = {
-    id: string;
-    nombre: string;
-    precio: number;
-    description: string;
-    uri: string;
-}
 
 
 const Gallery = () => {
     const [filtro, setFiltro] = useState('')
-    const [productos, setProductos] = useState<Producto[]>([])
-    const [loading, setLoading] = useState(false)
+    const [createModalOpen, setCreateModalOpen] = useState(false)
 
-    useEffect(() => {
+    const { data: productos, isFetching: loading } = useProductos()
 
-        const getProductos = async () => {
-            setLoading(true)
-            await sleep(1000)
-            const response = await fetch(`${BACKEND_URL}/productos`)
+    const handleOpenModal = () => {
+        setCreateModalOpen(true)
+    }
 
-            if (!response.ok) {
-                setLoading(false)
-                return console.error(response.statusText)
-            }
-
-            const productos = await response.json() as Producto[]
-            setProductos(productos)
-            setLoading(false)
-        }
-
-        getProductos()
-    }, [filtro])
+    const handleCloseModal = () => {
+        setCreateModalOpen(false)
+    }
 
     return (
         <View style={styles.container}>
@@ -61,7 +43,10 @@ const Gallery = () => {
                     </Text>
                 )}
             </View>
-            {loading && <ActivityIndicator />}
+            {createModalOpen && <AddProductModal open={createModalOpen} onClose={handleCloseModal} />}
+            {loading && <View style={styles.activityIndicator}>
+                <ActivityIndicator />
+            </View>}
             {!loading && <FlatList
                 data={productos}
                 keyExtractor={(item) => item.id}
@@ -80,9 +65,12 @@ const Gallery = () => {
                     </View>
                 }
             />}
+            <FloatingButton onPress={handleOpenModal} />
+
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -169,6 +157,11 @@ const styles = StyleSheet.create({
         color: '#666',
         textAlign: 'center',
     },
+    activityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 export default Gallery

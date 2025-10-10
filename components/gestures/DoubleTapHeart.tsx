@@ -19,7 +19,6 @@ const DoubleTapHeart = ({ color }: Props) => {
     const doubleTap = Gesture.Tap()
         .numberOfTaps(2)
         .onEnd(() => {
-            // Animate the heart scaling up and fading out
             scale.value = withSequence(
                 withSpring(1.5, { duration: 300 }),
                 withSpring(1),
