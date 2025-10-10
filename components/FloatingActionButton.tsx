@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
 type Props = {
     onPress: () => void
@@ -7,9 +7,9 @@ type Props = {
 
 const FloatingButton = ({ onPress }: Props) => {
     return (
-        <TouchableOpacity style={styles.fab} onPress={onPress}>
+        <Pressable style={({ pressed }) => ([styles.fab, pressed && styles.fabPressed])} onPress={onPress}>
             <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
+        </Pressable>
     );
 };
 
@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+    },
+    fabPressed: {
+        backgroundColor: '#70aff2ff'
     },
     fabText: {
         fontSize: 24,
