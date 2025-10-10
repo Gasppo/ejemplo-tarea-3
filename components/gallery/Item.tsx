@@ -1,4 +1,4 @@
-import { Producto } from '@/app/(tabs)/gallery'
+import { Producto } from '@/hooks/useProductos'
 import React, { useState } from 'react'
 import { Image, ImageResizeMode, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
